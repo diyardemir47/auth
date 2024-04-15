@@ -7,12 +7,19 @@ import HomeScreen from './screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
+function NormalStack() {
+  return (
+
+    <Stack.Navigator>
+    <Stack.Screen name="Home" component={HomeScreen} />
+  </Stack.Navigator>
+  )
+}
+
 export default function App() {
   return (
     <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-    </Stack.Navigator>
+ <NormalStack/>
   </NavigationContainer>
   );
 }
