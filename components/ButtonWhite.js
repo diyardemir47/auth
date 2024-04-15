@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-export default function SignupScreen() {
+export default function ButtonWhite({ children }) {
   return (
     <View>
-      <Text>SignupScreen</Text>
+      <Text>{children}</Text>
     </View>
   );
 }
