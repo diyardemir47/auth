@@ -3,11 +3,33 @@ import React, { useState } from 'react';
 import Input from './Input';
 import Button from './Button';
 
-export default function AuthForm({ isLogin }) {
+export default function AuthForm({ isLogin, onsubmit, credentialsInvalid }) {
   const [enteredEmail, setEnteredEmail] = useState('');
   const [enteredPassword, setEnteredPassword] = useState('');
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');
   const [enteredConfirmPassword, setEnteredConfirmPassword] = useState('');
+
+  const {
+    email: emailIsInvalid,
+    confirmEmail: emailsDontMatch,
+    password: passwordIsInvalid,
+    confirmPassword: passwordDontMatch,
+  } = credentialsInvalid;
+  console.log(
+    emailIsInvalid,
+    emailsDontMatch,
+    passwordIsInvalid,
+    passwordDontMatch
+  );
+
+  function submitHandler() {
+    onsubmit({
+      email: enteredEmail,
+      confirmEmail: enteredConfirmEmail,
+      password: enteredPassword,
+      confirmPassword: enteredConfirmPassword,
+    });
+  }
 
   function updateInput(inputType, enteredValue) {
     switch (inputType) {
@@ -33,6 +55,7 @@ export default function AuthForm({ isLogin }) {
         keyboardType="email-address"
         onUpdateValue={updateInput.bind(this, 'email')}
         value={enteredEmail}
+        isInvalid={emailIsInvalid}
       />
       {!isLogin && (
         <Input
@@ -40,6 +63,7 @@ export default function AuthForm({ isLogin }) {
           keyboardType="email-address"
           onUpdateValue={updateInput.bind(this, 'confirmEmail')}
           value={enteredConfirmEmail}
+          isInvalid={emailsDontMatch}
         />
       )}
       <Input
@@ -47,6 +71,7 @@ export default function AuthForm({ isLogin }) {
         secure
         onUpdateValue={updateInput.bind(this, 'password')}
         value={enteredPassword}
+        isInvalid={passwordIsInvalid}
       />
       {!isLogin && (
         <Input
@@ -54,10 +79,13 @@ export default function AuthForm({ isLogin }) {
           secure
           onUpdateValue={updateInput.bind(this, 'confirmPassword')}
           value={enteredConfirmPassword}
+          isInvalid={passwordDontMatch}
         />
       )}
       <View style={styles.buttons}>
-        <Button>{isLogin ? 'Giriş Yap' : 'Kaydol'}</Button>
+        <Button onPress={submitHandler}>
+          {isLogin ? 'Giriş Yap' : 'Kaydol'}
+        </Button>
       </View>
     </View>
   );
