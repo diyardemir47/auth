@@ -1,13 +1,24 @@
-import axios from "axios"
+import axios from 'axios';
 
+const API_KEY = 'AIzaSyCcqBQ-nXqh-Uinh9JzlfoC6PSUryxNLk0';
 
-const API_KEY='AIzaSyCXRq0lwUS7FvIcVhEjBf2CwB1JxQkQhyg';
-async function createUser(email,password) {
+async function authenticate(mode, email, password) {
+  const response = await axios.post(
+    `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${API_KEY}`,
+    {
+      email: email,
+      password: password,
+      returnSecureToken: true,
+    }
+  );
 
-   const response= await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+API_KEY, {
+  console.log(response.data);
+}
 
-    email:email,
-    password:password,
-    returnSecureToken:true,
-    })
+export async function createUser(email, password) {
+  return authenticate('signUp', email, password);
+}
+
+export async function login(email, password) {
+  return authenticate('signInWithPassword', email, password);
 }
